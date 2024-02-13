@@ -22,6 +22,7 @@ addBtn.onclick=function()
 
     // for removing update button 
     updateBtn.style.display = 'none';
+    registerBtn.style.display = "block";
 }
 
 // styling for view button
@@ -64,6 +65,28 @@ closeBtn.onclick=function()
         return (!userData.some(user => user.employeeId === employeeId) );
     }
 
+    function isValidDesignation(designation) {
+        // Regular expression to match only alphabets and spaces
+        const regex = /^[a-zA-Z\s]+$/;
+        // Regular expression to match only numbers
+        const numbersRegex = /^\d+$/;
+        // Regular expression to match only special characters
+        const specialCharsRegex = /^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/;
+    
+        // Check if the designation contains only alphabets and spaces
+        if (regex.test(designation)) {
+            return true;
+        }
+        // Check if the designation contains only numbers or special characters
+        else if (numbersRegex.test(designation) || specialCharsRegex.test(designation)) {
+            return false;
+        }
+        // Designation contains alphabets, numbers, and/or special characters
+        else {
+            return true;
+        }
+    }
+    
 // creating employee class as said in assignment to add the employees details using class's objects
 class Employee {
     constructor(name, address, employeeId, designation) {
@@ -86,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (!name || !address || !employeeId || !designation) {
             return  Swal.fire({
-                title: "Fill all Fields!",
+                title: "warning!",
                 text: "All fields are required for registration",
                 icon: "error",
                 timer: 4000, // Timer in milliseconds (4 seconds in this case)
@@ -104,7 +127,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         if (!isValidAddress(address)) {
             return  Swal.fire({
-                title: "Address is invalid!",
+                title: "warning!",
                 text: "Addrress cannot be only digits or special characters",
                 icon: "error",
                 timer: 4000 
@@ -120,13 +143,22 @@ document.addEventListener("DOMContentLoaded", function() {
             });
           
         }
+        if (!isValidDesignation(designation)) {
+            return     Swal.fire({
+                title: "warning!",
+                text: "Designation cannot contain only digits and special characters",
+                icon: "error",
+                timer: 4000 
+            });
+          
+        }
         // Proceed with registration
         const newEmployee = new Employee(name, address, employeeId, designation);
         userData.push(newEmployee);
         var userString = JSON.stringify(userData);
         localStorage.setItem("userData", userString);
         Swal.fire({
-            title: "Great!",
+            title: "Good job!",
             text: "Registration done Successfully",
             icon: "success",
             timer: 4000
@@ -233,6 +265,7 @@ for (let i = 0; i < allEditBtn.length; i++) {
             
             // Close the form or perform any other actions as needed
             closeBtn.click();
+            registerForm.reset('');
         }
     }
       // styling the edit button
@@ -243,3 +276,4 @@ for (let i = 0; i < allEditBtn.length; i++) {
 }
  
 
+kj
