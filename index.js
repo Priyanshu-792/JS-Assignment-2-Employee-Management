@@ -60,7 +60,7 @@ closeBtn.onclick=function()
         return regex.test(address);
     }
     function isUniqueEmployeeId(employeeId) {
-        if (employeeId === '') 
+        if (employeeId === '' || employeeId<=0) 
             return false;
         return (!userData.some(user => user.employeeId === employeeId) );
     }
@@ -109,7 +109,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         if (!name || !address || !employeeId || !designation) {
             return  Swal.fire({
-                title: "warning!",
+                title: "Fill all the Fields!",
                 text: "All fields are required for registration",
                 icon: "error",
                 timer: 4000, // Timer in milliseconds (4 seconds in this case)
@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
         if (!isUniqueEmployeeId(employeeId)) {
             return     Swal.fire({
                 title: "warning!",
-                text: "Use unique id and neither keep it blank",
+                text: "Use unique id and donot keep it blank or less than equal to 0",
                 icon: "error",
                 timer: 4000 
             });
@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", function() {
         var userString = JSON.stringify(userData);
         localStorage.setItem("userData", userString);
         Swal.fire({
-            title: "Good job!",
+            title: "Great!",
             text: "Registration done Successfully",
             icon: "success",
             timer: 4000
